@@ -1,0 +1,62 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MSUnitTestDemo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MSUnitTestDemo.Tests
+{
+    [TestClass()]
+    public class BankAccountTests
+    {
+        [TestMethod()]
+        public void TestExceptionCase()
+        {
+            BankAccount bank_account = new BankAccount("Umar Hayat", 0);
+            try
+            {
+                bank_account.Debit(5); // This should throw an ArgumentOutOfRangeException
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // Check if the exception message contains the expected text
+                StringAssert.Contains(e.Message, "amount <= 0 or amount > balance");
+                return; // Test passed
+            }
+            catch (Exception e)
+            {
+                // If another exception is thrown, verify its message
+                StringAssert.Contains(e.Message, "balance = 0");
+                return; // Test passed
+            }
+            Assert.Fail("No exception was thrown"); // Test fails if no exception is thrown
+        }
+
+        [TestMethod()]
+        public void TestDebitCase()
+        {
+            BankAccount bank_account = new BankAccount("Umar Hayat", 10);
+            bank_account.Debit(2);
+            Assert.AreEqual(8, bank_account.Balance);
+        }
+    
+        [TestMethod()]
+        public void TestCreditCase()
+        {
+            BankAccount bank_account = new BankAccount("Umar Hayat", 0);
+            bank_account.Credit(2);
+            Assert.AreEqual(2, bank_account.Balance);
+        }
+
+        [TestMethod()]
+        public void TestDebitCreditCase()
+        {
+            BankAccount bank_account = new BankAccount("Umar Hayat", 10);
+            bank_account.Debit(2);
+            bank_account.Credit(2);
+            Assert.AreEqual(10, bank_account.Balance);
+        }
+    }
+}
