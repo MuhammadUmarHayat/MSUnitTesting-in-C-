@@ -1,0 +1,139 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MSUnitTestDemo2;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using System.ComponentModel;
+
+namespace LoginDAO.Tests
+{
+    [TestClass()]
+    public class LoginDAOTests
+    {
+        [TestMethod] 
+        public void Save_Record()
+        {
+            try { 
+            MSUnitTestDemo2. LoginDAO dao=new MSUnitTestDemo2.LoginDAO();
+
+            // Arrange
+            string userid = "U004";
+            string name = "John";
+            string fname = "Doe";
+            string address = "123 Main St";
+
+           
+            // Act
+            dao.save(userid, name, fname, address);
+                // Assert
+                return;  
+            }
+
+            catch (SqlException exp)
+            {
+                // Assert
+                Assert.Fail(exp.Message);
+                return;
+            }
+            catch (Exception ex)
+            {// Assert
+                Assert.Fail(ex.Message);
+                return;
+            }
+
+        }
+
+        [TestMethod]
+        public void User_Is_Exist()
+        {
+            try
+            {
+                string userid = "U003";
+                MSUnitTestDemo2.LoginDAO dao = new MSUnitTestDemo2.LoginDAO();
+                bool result=dao.isUserExist(userid);
+                Assert.IsTrue(result, "User exist");
+            }
+            catch(Exception ex)
+            {
+                StringAssert.Contains(ex.Message, "User exists");
+            }
+        }
+
+        /*
+                [TestMethod]
+                public void Verify_Record_Is_Saved()
+                {
+                    try
+                    {
+                        // Arrange
+                        MSUnitTestDemo2.LoginDAO dao = new MSUnitTestDemo2.LoginDAO();
+
+                        string userId = "U003";
+                        string name = "John";
+
+
+                        string query = "SELECT COUNT(*) FROM users WHERE userid = '"+userId+"'";
+                        int recordCount = 0;
+
+                        using (SqlConnection con = new SqlConnection(@""))
+                        {
+                            SqlCommand cmd = new SqlCommand(query, con);
+                            con.Open();
+
+                            // Act
+                            recordCount = (int)cmd.ExecuteScalar();
+                        }
+
+                        // Assert
+                        Assert.IsTrue(recordCount > 0, "Record not found in the database.");
+                    }
+                    catch (SqlException exp)
+                    {
+                        // Assert
+                        Assert.Fail($"SQL Error occurred: {exp.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Assert
+                        Assert.Fail($"An error occurred: {ex.Message}");
+                    }
+
+                }
+                 */
+        [TestMethod]
+        public void display_record()
+        {
+            try
+            {
+                //arrange
+                MSUnitTestDemo2.LoginDAO dao = new MSUnitTestDemo2.LoginDAO();
+                //act
+                dao.display();
+                //assert
+
+                return;
+            }
+
+            catch (SqlException exp)
+            {
+                // Assert
+                Assert.Fail(exp.Message);
+                return;
+            }
+            catch (Exception ex)
+            {// Assert
+                Assert.Fail(ex.Message);
+                return;
+            }
+
+        }
+   
+    
+   
+    }
+}

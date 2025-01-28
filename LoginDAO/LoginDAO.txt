@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
+
+
+namespace MSUnitTestDemo2
+{
+    public class LoginDAO
+    {
+       
+        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user\source\repos\MSUnitTestDemo2\MSUnitTestDemo2\Database1.mdf;Integrated Security=True";
+       public void save(string userid,string name,string fname,string add)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
+                
+                con.Open();
+               
+                string query = "insert into users(userid,name,fathername,address) values('" + userid + "','" + name + "','" + fname + "','" + add + "')";
+                SqlCommand sqlCommand = new SqlCommand(query, con);
+                sqlCommand.ExecuteNonQuery();
+                con.Close();
+                Console.WriteLine("User has been registered");
+            }
+            
+            catch (SqlException exp)
+            {
+                throw new Exception("User exists"+ exp.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Connection Error" + ex.Message);
+            }
+
+        }
+        public void display()
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(connectionString);
+                con.Open();
+                string query = "select * from users";
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+                da.Fill(dt);
+                int i = 0;
+                while (dt.Rows.Count > 0 && i < dt.Rows.Count)
+                {
+                    string name = dt.Rows[i]["name"].ToString();
+                    string fname = dt.Rows[i]["fathername"].ToString();
+                    string address = dt.Rows[i]["address"].ToString();
+                    Console.WriteLine("Name : " + name + " Father Name : " + fname + "Address : " + address);
+
+                    i++;
+                }
+                con.Close();
+            }
+
+
+            catch (SqlException exp)
+            {
+                throw new Exception("SQL Exception" + exp.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception" + ex.Message);
+            }
+
+        }
+    
+    public bool isUserExist(string userid)
+        {
+            
+                SqlConnection con = new SqlConnection(connectionString);
+                con.Open();
+                string query = "select * from users where userid='"+userid+"'";
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+
+                da.Fill(dt);
+                if (dt.Rows.Count>0)
+                {
+                    throw new Exception("User exists");
+                }
+                else { return false; }
+
+           
+            return true;
+
+        }
+    }
+}
