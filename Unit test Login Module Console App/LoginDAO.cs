@@ -15,7 +15,7 @@ namespace EcommeraceApplication
     {//Login module: Data Access Object
 
         //create a connection string
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\user\source\repos\EcommeraceApplication\EcommeraceApplication\MYDB.mdf;Integrated Security=True";
+        string connectionString = @"path";
         public bool signup(string email, string name, string fathername, string address, string sec_question, string sec_answer, string password, string user_type, string status, string mobile_no)
         {
             try
